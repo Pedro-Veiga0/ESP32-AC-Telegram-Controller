@@ -6,10 +6,12 @@
 #define RXD2 16
 #define TXD2 17
 
-const char* ssid     = "your_wifi_ssid";
-const char* password = "your_wifi_password";
-const char* botToken = "your_telegram_bot_token";
-const char* chatID   = "your_telegram_chat_id";
+#include "secrets.h"
+
+const char* ssid     = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
+const char* botToken = BOT_TOKEN;
+const char* chatID   = CHAT_ID;
 
 bool acPowerState = false;
 bool ledState = true;
