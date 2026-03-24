@@ -8,7 +8,7 @@ This project was built and tested on a **Bosch Climate 3000i** (a Midea-based un
 
 ## How it works
 
-Modern Midea-based ACs (sold under many brand names including Bosch, Electra, Comfee and others) expose a UART serial interface on their internal control board, originally intended for Wi-Fi dongles. This project connects an ESP32 directly to that interface using a stripped USB-A cable, giving full bidirectional control over the unit — the same way the official dongle would, but locally and without any cloud dependency.
+Modern Midea-based ACs (sold under many brand names including Bosch, Electra, Comfee and others) expose a UART serial interface on their internal control board, originally intended for Wi-Fi dongles. This project connects an ESP32 Dev Kit V1 directly to that interface using a stripped USB-A cable, giving full bidirectional control over the unit — the same way the official dongle would, but locally and without any cloud dependency.
 
 The ESP32 connects to your home Wi-Fi and polls the Telegram Bot API every 5 seconds. When a command arrives, it builds a control frame and sends it to the AC over UART. State changes made with the physical remote (power, mode, temperature) are automatically reflected back via a UART status callback, keeping the bot's state always in sync.
 
@@ -29,7 +29,7 @@ The AC's USB port exposes a standard UART interface at 5V. The wiring is:
 | 3 (D+) | RX to AC | GPIO 17 (TX2) |
 | 4 (GND) | Ground | GND |
 
-> ⚠️ The AC's USB port runs at 5V logic. Most ESP32 boards are 3.3V tolerant on GPIO but are powered fine from the 5V USB line via VIN. Check your specific board's datasheet before wiring.
+> ⚠️ The AC's USB port runs at 5V logic. Most ESP32 boards are 3.3V tolerant on GPIO but are powered fine from the 5V USB line via VIN. Check your specific board's datasheet before wiring. Also, there is a 1kΩ resistor connected to AC TX → ESP RX GPIO 16 (RX2) to protect the ESP32.
 
 ---
 
@@ -51,7 +51,7 @@ Install these through the Arduino Library Manager:
 
 Open Telegram and message [@BotFather](https://t.me/BotFather). Send `/newbot`, follow the prompts, and copy the token it gives you.
 
-To get your chat ID, message [@userinfobot](https://t.me/userinfobot).
+To get your chat ID, message [@userinfobot](https://t.me/userinfobot) or type this in browser https://api.telegram.org/bot<YourBOTToken>/getUpdates
 
 **2. Fill in your credentials**
 
@@ -123,28 +123,7 @@ The sketch has been tested running continuously for multiple days. Several relia
 
 ---
 
-## Compatibility
-
-This project should work with any AC unit that uses the Midea UART protocol, which includes units sold under these brands among others:
-
-- Bosch (Climate 3000i, 5000i, 8000i)
-- Midea
-- Comfee
-- Electra
-- Pioneer
-- Innovair
-
-Check the [MideaUART repository](https://github.com/dudanov/MideaUART) for a more complete compatibility list. If your unit has a USB port on the internal control board and accepts the official Wi-Fi dongle, this project will likely work.
-
----
-
 ## Credits
 
 - **[@dudanov](https://github.com/dudanov)** — for the MideaUART library that makes all of this possible
 - **[@witnessmenow](https://github.com/witnessmenow)** — for the UniversalTelegramBot library
-
----
-
-## License
-
-MIT
